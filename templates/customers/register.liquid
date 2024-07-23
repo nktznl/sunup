@@ -1,0 +1,125 @@
+{{- 'customer.css' | asset_url | stylesheet_tag -}}
+
+<div class="form-customer form-customer--register">
+  <div class="container container--narrow">
+    <div class="form__head center">
+      <h1 class="h3 form__title">
+        {{- 'customer.register.title' | t -}}
+      </h1><!-- /.h3 form__title -->
+
+      <p class="form__subtitle color-subdued">
+        {{- 'customer.register.subtitle' | t -}}
+      </p><!-- /.form__subtitle color-subdued -->
+    </div><!-- /.form__head center -->
+
+    <div class="form__body">
+      {%- form 'create_customer', novalidate: 'novalidate' -%}
+        {%- if form.errors -%}
+          <div class="color-red hidden">
+            {{- form.errors | default_errors -}}
+          </div><!-- /.color-red -->
+        {%- endif -%}
+
+        <div class="form-row">
+          {%-
+            liquid
+            assign label = 'customer.register.first_name' | t
+            assign placeholder = 'customer.register.first_name_placeholder' | t
+            assign attr = 'autocomplete="given-name"'
+            assign value = ''
+            if form.first_name
+              assign value = form.first_name
+            endif
+            render 'text-input', id: 'RegisterForm-FirstName', label: label, type: 'text', name: 'customer[first_name]', placeholder: placeholder, attr: attr, value: value
+            assign label = nil
+            assign placeholder = nil
+            assign attr = nil
+            assign value = nil
+          -%}
+        </div><!-- /.form-row -->
+
+        <div class="form-row">
+          {%-
+            liquid
+            assign label = 'customer.register.last_name' | t
+            assign placeholder = 'customer.register.last_name_placeholder' | t
+            assign attr = 'autocomplete="family-name"'
+            assign value = ''
+            if form.last_name
+              assign value = form.last_name
+            endif
+            render 'text-input', id: 'RegisterForm-LastName', label: label, type: 'text', name: 'customer[last_name]', placeholder: placeholder, attr: attr, value: value
+            assign label = nil
+            assign placeholder = nil
+            assign attr = nil
+            assign value = nil
+          -%}
+        </div><!-- /.form-row -->
+
+        <div class="form-row">
+          {%-
+            liquid
+            assign label = 'customer.register.email' | t
+            assign placeholder = 'customer.register.email_placeholder' | t
+            assign error = ''
+            assign has_error = false
+            capture attr
+              echo 'spellcheck="false"'
+              echo 'autocapitalize="off"'
+              echo 'autocomplete="email"'
+              echo 'aria-required="true"'
+            endcapture
+            assign value = ''
+            if form.email
+              assign value = form.email
+            endif
+            if form.errors contains 'email'
+              assign error = form.errors.translated_fields['email'] | capitalize | append: ' ' | append: form.errors.messages['email']
+              assign has_error = true
+            endif
+            render 'text-input', id: 'RegisterForm-email', label: label, type: 'email', name: 'customer[email]', placeholder: placeholder, attr: attr, value: value, message: error, has_error: has_error
+            assign label = nil
+            assign placeholder = nil
+            assign attr = nil
+            assign value = nil
+            assign error = nil
+            assign has_error = nil
+          -%}
+        </div><!-- /.form-row -->
+
+        <div class="form-row">
+          {%-
+            liquid
+            assign label = 'customer.register.password' | t
+            assign placeholder = 'customer.register.password_placeholder' | t
+            assign attr = 'aria-required="true"'
+            assign error = ''
+            assign has_error = false
+            if form.errors contains 'password'
+              assign error = form.errors.translated_fields['password'] | capitalize | append: ' ' | append: form.errors.messages['password']
+              assign has_error = true
+            endif
+            render 'text-input', id: 'RegisterForm-password', label: label, type: 'password', name: 'customer[password]', placeholder: placeholder, attr: attr, message: error, has_error: has_error
+            assign label = nil
+            assign placeholder = nil
+            assign attr = nil
+            assign error = nil
+            assign has_error = nil
+          -%}
+        </div><!-- /.form-row -->
+
+        <div class="form-row center">
+          <div>
+            {%- assign value = 'customer.register.submit' | t -%}
+            {%- render 'button', type: 'submit', value: value -%}
+            {%- assign value = nil -%}
+          </div>
+        </div><!-- /.form-row center -->
+
+        <div class="form-row center">
+          <a href="{{- routes.account_login_url -}}" class="link">{{- 'customer.register.have_account' | t -}}</a>
+        </div><!-- /.form-row center -->
+      {%- endform -%}
+    </div><!-- /.form__body -->
+  </div><!-- /.container container--narrow -->
+</div><!-- /.form-customer form-customer--register -->

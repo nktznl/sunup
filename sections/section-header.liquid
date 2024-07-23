@@ -1,0 +1,33 @@
+{{ 'header.css' | asset_url | stylesheet_tag }}
+
+<header>
+  <a href="{{ routes.root_url }}" class="logo">
+    <img src="https://www.customeat.com/cms/homepage/top_image/l_0/logo.png">
+  </a>
+
+  <nav>
+    <ul>
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/collections/all">all</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "sticky-nav",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "default": "main-menu",
+      "label": "Menu principale"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-gift-card",
+      "settings": {
+        "payments": "I metodi di pagamento abilitati su trecinquesei sono i seguenti: PayPal, Carta di Credito, Apple Pay e Google Pay.",
+        "shippings": "",
+        "refunds": "",
+        "maintenance": ""
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

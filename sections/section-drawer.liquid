@@ -1,0 +1,139 @@
+{{ 'drawer.css' | asset_url | stylesheet_tag }}
+
+
+<div id="drawer" class="drawer" style="overflow: auto">
+	<div class="backdrop" id="close-drawer-backdrop"></div>
+
+	<div class="drawer-wrapper">
+		<div class="drawer-header">
+			<button id="close-drawer-button">
+              {{ 'general.close_cart' | t }}
+            </button>
+		</div>
+
+		{% if cart == empty %}
+
+		<div id="empty-cart" class="empty-cart">
+			<p class="message">{{ 'general.empty_cart' | t }}</p>
+			<div class="suggestions-wrapper">
+				<h2>{{ 'general.suggestions_cart' | t }}</h2>
+				<div id="suggestions">{% render 'js-drawer-suggestions' %}</div>
+			</div>
+		</div>
+
+		{% else %}
+
+		<div class="drawer-body" id="drawer-body">
+			<ul id="drawer-cart-list">
+				{% for item in cart.items %}
+				<li class="item">
+					<img src="{{ item.image | img_url : '300x' }}" />
+					<div class="details">
+						<a href="{{ item.url }}" class="item">
+							<p class="product-vendor">{{ item.vendor }}</p>
+							<p class="product-title">{{ item.title }}</p>
+						</a>
+						<p class="product-price">{{ item.price | money }}</p>
+						<div class="product-quantity-selector">
+							<button
+								type="button"
+								class="decrement-item-form"
+								data-variant="{{ item.variant_id }}"
+								data-qty="{{ item.quantity }}">
+								-
+							</button>
+							<p class="product-quantity">
+								<span>{{ item.quantity }}</span>
+							</p>
+							{{ item.product.variants["item.variant_id"].title }}
+							{% for variant in item.product.variants %}
+								{% if variant.id == item.variant_id %}
+									{% assign qty = variant.inventory_quantity %}
+								{% endif %}
+							{% endfor %}
+
+							{% if item.quantity < qty %}
+							<button
+								type="button"
+								class="increment-item-form"
+								data-variant="{{ item.variant_id }}"
+								data-qty="{{ item.quantity }}">
+								+
+							</button>
+							{% endif %}
+							<button type="button" class="remove-item-form" data-variant="{{ item.variant_id }}">
+                  {{ 'general.remove_cart' | t }}
+                  </button>
+						</div>
+						<span id="error-{{ item.variant_id }}"></span>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+<!-- 		<div class="drawer-free-shipping">
+			{% assign free_shipping = section.settings.free_shipping_limit | plus: 0 | times: 100 %}
+			{% assign free_shipping_normalized = free_shipping | minus: cart.items_subtotal_price | money %}
+			{% if cart.items_subtotal_price > free_shipping %}
+			<p>Hai ottenuto la spedizione gratuita</p>
+			{% else %}
+			<p>Spedizione gratis per ordini superiori a {{ free_shipping | money }}.</p>
+			{% endif%}
+		</div> -->
+
+		<div class="drawer-footer" id="drawer-footer">
+			<button id="drawer-checkout" onclick="startCheckout()">
+				<span id="cart-total">{{ cart.items_subtotal_price | money }}</span> - {{ 'general.checkout' |t }}
+			</button>
+		</div>
+
+		{% endif %}
+	</div>
+</div>
+
+<script>
+	// Start checkout ga #############################################################
+	// ###############################################################################
+
+	async function pushConversion(currency, price) {
+		console.log("Conversion [start checkout] sent!" + " Value: " + price + currency);
+		/* gtag('event', 'conversion', {
+    'send_to': '#',
+    'value': price,
+    'currency': currency
+  	}); */
+	}
+
+	async function startCheckout() {
+		const cart = await fetch("/cart.js");
+		const json = await cart.json();
+		console.log(json);
+
+		const currency = json.currency;
+		const total_price = json.total_price / 100;
+
+		await pushConversion(currency, total_price);
+		window.location.href = window.Shopify.routes.root + "checkout";
+	}
+</script>
+
+
+
+{% schema %}
+{
+ "name": "Drawer",
+	"settings": [
+		{
+		"type": "richtext",
+		"id": "shipping",
+		"label": "Free Shipping text"
+		},
+		{
+			"type": "text",
+			"id": "free_shipping_limit",
+			"label": "Free Shipping Cart Value"
+		}
+	]
+}
+{% endschema %}

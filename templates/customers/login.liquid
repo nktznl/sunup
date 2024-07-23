@@ -1,0 +1,84 @@
+
+<section class="customer">
+  <div class="login">
+      <h1>Login</h1>
+    {%- form 'customer_login', novalidate: 'novalidate' -%}
+      {%- if form.errors -%}
+        <h2 class="form__message" tabindex="-1" autofocus>
+          <span class="visually-hidden">{{ 'accessibility.error' | t }} </span>
+          {{ 'templates.contact.form.error_heading' | t }}
+        </h2>
+        {{ form.errors | default_errors }}
+      {%- endif -%}
+
+      <input
+        type="email"
+        name="customer[email]"
+        id="CustomerEmail"
+        autocomplete="email"
+        autocorrect="off"
+        autocapitalize="off"
+        {% if form.errors contains 'form' %}
+          aria-invalid="true"
+        {% endif %}
+        placeholder="Email"
+      >
+
+      <input
+        type="password"
+        value=""
+        name="customer[password]"
+        id="CustomerPassword"
+        autocomplete="current-password"
+        {% if form.errors contains 'form' %}
+          aria-invalid="true"
+        {% endif %}
+        placeholder="Password"
+      >
+
+      <button type="submit">{{ 'general.login' | t }}</button>
+
+    {%- endform -%}
+  </div>
+</section>
+
+<style>
+  .customer {
+    width: 100%;
+    padding: 6rem 1rem;
+  }
+
+  .customer .login {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .customer form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+  }
+
+  .customer form input {
+    padding: 1rem 0;
+    border: 0px;
+    border-bottom: solid 1px #000000;
+    background-color: #FFFFFF !important;
+    color: #000000;
+    appearance: none;
+  }
+
+  .customer form button {
+    padding: 1rem;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: 0px;
+  }
+
+  @media (min-width: 1024px) {
+    .customer {
+      max-width: calc(100% - 450px);
+      margin: 0 auto;
+    }
+  }
+</style>

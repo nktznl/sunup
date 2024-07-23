@@ -1,0 +1,48 @@
+{{ 'splide.min.css' | asset_url | stylesheet_tag }}
+{{ 'main-article.css' | asset_url | stylesheet_tag }}
+
+<article class="main-article">
+
+  <div class="hero_image">
+    <img src="http://trecinquesei.myshopify.com/cdn/shop/files/Senza_titolo-1_Tavola_disegno_1.png?v=1680622587&width=2048" alt="Lavora con noi">
+  </div>
+
+  <h1 class="article_title">
+    {{- article.title -}}
+  </h1>
+
+  <span class="date-label">{{ 'article.published' | t }} {{ article.created_at | date: "%d/%m/%Y" }}</span>
+
+  <div class="article_body">
+    {{ article.content }}
+  </div>
+</article>
+
+{% if article.metafields.custom.related_collection %}
+
+{{ 'splide.css' | asset_url | stylesheet_tag }}
+{{ 'featured-collection.css' | asset_url | stylesheet_tag }}
+{{ 'product-item.css' | asset_url | stylesheet_tag }}
+
+<section id="js-image-carousel" class="splide js-products-carousel" aria-label="{{ section.settings.title }}">
+	<div class="head">
+		<h2 class="title">Correlati</h2>
+	</div>
+	<div class="splide__track">
+		<ul class="splide__list">
+      {% for product in collections[article.metafields.custom.related_collection].products limit: 16 %}
+			{% render 'product-item-slider', product_ref: product %}
+		{% endfor %}
+		</ul>
+	</div>
+	<div class="splide__arrows">
+		<button class="splide__arrow splide__arrow--prev">
+			{% render 'icons', type: 'arrow-slider' %}
+		</button>
+		<button class="splide__arrow splide__arrow--next">
+			{% render 'icons', type: 'arrow-slider' %}
+		</button>
+  </div>
+</section>
+
+{% endif %}

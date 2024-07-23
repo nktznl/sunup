@@ -1,0 +1,19 @@
+<meta charset="utf-8" />
+<meta
+  http-equiv="X-UA-Compatible"
+  content="IE=edge" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0" />
+{%- if settings.favicon != blank -%}
+<link
+  rel="icon"
+  type="image/png"
+  href="{{ settings.favicon | image_url: width: '32', height: '32' }}" />
+{%- endif -%}
+
+<!-- SCDN preconnect -->
+<link
+  rel="preconnect"
+  href="https://cdn.shopify.com"
+  crossorigin />

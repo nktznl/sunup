@@ -1,0 +1,84 @@
+{%- comment -%} Dawn Theme reference: -
+https://github.com/Shopify/dawn/blob/main/sections/main-cart-items.liquid -
+https://github.com/Shopify/dawn/blob/main/sections/main-cart-footer.liquid //
+Cart object: https://shopify.dev/api/liquid/objects/cart {%- endcomment -%}
+
+{% if cart.items.size > 0 %}
+  <div class="main_cart">
+
+    <div class="cart_list">
+      <h1>Il tuo carrello</h1>
+
+      <div class="cart_items">
+        <div class="header_line">
+          <div>Prodotto</div>
+          <div>Dettagli</div>
+        </div>
+
+        {% for product in cart.items %}
+        <div class="item_line">
+          <div>
+            <img src="{{ product.image | img_url: '1000x' }}" alt="" />
+          </div>
+
+          <div>
+            <p class="vendor">{{product.vendor}}</p>
+            <p class="title">{{product.title}}</p>
+            <p class="money">{{product.price | money_with_currency}}</p>
+          </div>
+
+          <div>
+            <div class="actions">
+              <a href="#!" class="remove_item" onclick="removeItem('{{product.id}}')" data-id="{{product.variant_id}}">Rimuovi</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="checkout">
+
+      <div class="checkout_orignal_total_price">
+        <p>Subtotale</p>
+
+        <p>{{cart.original_total_price | money_with_currency}}</p>
+      </div>
+
+      <div class="checkout_total_price">
+        <p>Totale</p>
+
+        <p>{{cart.total_price | money_with_currency}}</p>
+      </div>
+
+      {% if cart.total_discount != 0 %}
+      <p>Hai risparmiato {{cart.total_discount | money_with_currency }}</p>
+      {% endif %}
+
+      <div class="clearpay">
+        <p>Oppure paga in 3 comode rate da {{ cart.total_price | divided_by: 3 | money_with_currency}} con ClearPay.</p>
+      </div>
+
+      <p style="font-size: 12px;">Tasse incluse. <a href="#" style="text-decoration: underline;">Spedizione gratuita</a></p>
+
+      <form action="/cart" method="post" name="cart">
+        <button type="submit" id="checkout" class="checkout_btn" name="checkout"{% if cart == empty %} disabled{% endif %}>
+          Procedi all'ordine
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  {% else %}
+
+    <div class="main_cart_empty">
+      <div class="container">
+        <p class="text">Il carrello è vuoto</p>
+
+        <a class="continue_shopping" href="/"><span>Continua lo shopping</span></a>
+      </div>
+    </div>
+
+
+{% endif %}

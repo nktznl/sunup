@@ -1,0 +1,92 @@
+{{ 'main-blog.css' | asset_url | stylesheet_tag }}
+
+{%- paginate blog.articles by 24 -%}
+  <div class="main-blog">
+
+    <div class="title-wrapper">
+      <h1 class="blog-title">{{ blog.title | escape }}</h1>
+    </div>
+
+    <div class="blog-articles">
+      {%- for article in blog.articles -%}
+        <a href="{{article.url}}" class="blog-article">
+            <div class="image-wrapper">
+              <span class="date-label">{{ article.created_at | date: "%d/%m/%Y" }}</span>
+
+              <img src="{{article.image | img_url: '1000x'}}"  alt="{{article.title}}">
+            </div>
+            <div class="article-details">
+              <h2>{{article.title}}</h2>
+            </div>
+        </a>
+      {%- endfor -%}
+    </div>
+
+    {% if paginate.pages > 1 %}
+        <div class="custom-pagination" style="margin-top: 4rem; margin-bottom: 6rem;">
+          {%- if paginate.pages > 1 -%}
+            <nav role="navigation">
+              <ol class="pagination">
+                {%- if paginate.previous-%}
+                  <li class="prev">
+                    <a href="{{ paginate.previous.url }}">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                      </svg>
+                      <span class="visuallyhidden">page</span>
+                    </a>
+                  </li>
+                {%- endif -%}
+
+                {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                    <li>
+                      <a href="{{ part.url }}">
+                        <span class="visuallyhidden">page</span>
+                        {% if part.title == 1 or part.title == 2 or part.title == 3 or part.title == 4 or part.title == 5 or part.title == 6 or part.title == 7 or part.title == 8 or part.title == 9 %}
+                          0{{ part.title }}
+                          {% else %}
+                          {{ part.title }}
+                        {% endif %}
+                      </a>
+                    </li>
+                  {%- else -%}
+                    {%- if part.title == paginate.current_page -%}
+                      <li class="active" aria-current="page">
+                        <span class="visuallyhidden">page</span>
+                        {% if part.title == 1 or part.title == 2 or part.title == 3 or part.title == 4 or part.title == 5 or part.title == 6 or part.title == 7 or part.title == 8 or part.title == 9 %}
+                          0{{ part.title }}
+                          {% else %}
+                          {{ part.title }}
+                        {% endif %}
+                      </li>
+                    {%- else -%}
+                      <li>
+                        <span class="visuallyhidden">page</span>
+                        {% if part.title == 1 or part.title == 2 or part.title == 3 or part.title == 4 or part.title == 5 or part.title == 6 or part.title == 7 or part.title == 8 or part.title == 9 %}
+                          0{{ part.title }}
+                          {% else %}
+                          {{ part.title }}
+                        {% endif %}
+                      </li>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- if paginate.next -%}
+                  <li class="next">
+                    <a href="{{ paginate.next.url }}">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                      </svg>
+                      <span class="visuallyhidden">page</span>
+                    </a>
+                  </li>
+                {%- endif -%}
+              </ol>
+            </nav>
+          {%- endif -%}
+        </div>
+      {% endif %}
+  </div>
+{%- endpaginate -%}

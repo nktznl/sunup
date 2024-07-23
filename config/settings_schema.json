@@ -1,0 +1,30 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Sunup",
+    "theme_version": "1.0.0",
+    "theme_author": "Nikita Zanella",
+    "theme_documentation_url": "https://github.com/NikitaZanella/sunup/issues",
+    "theme_support_url": "https://github.com/NikitaZanella/sunup"
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      }
+    ]
+  }
+]

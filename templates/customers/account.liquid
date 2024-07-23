@@ -1,0 +1,181 @@
+
+
+
+<section class="customer">
+
+  <div class="account">
+
+    <h1>Ciao, {{ customer.name }}!</h1>
+    <p>{{ customer.email }}</p>
+    <div class="orders">
+      <div class="head">
+        <p>
+          I tuoi ordini
+        </p>
+        <p>
+          {{ customer.orders_count }}
+        </p>
+      </div>
+      {% if customer.orders_count > 0 %}
+        <table>
+
+          <tr>
+            <th>ID ordine</th>
+            <th>Stato</th>
+            <th>Totale Pagato</th>
+            <th>Totale Rimborsato</th>
+            <th>Stauts Page</th>
+          </tr>
+
+        {% for order in customer.orders %}
+          <tr>
+            <td>
+               {{ order.name }}
+            </td>
+            <td>
+              {{ order.financial_status_label }}
+            </td>
+            <td>
+              {{ order.line_items_subtotal_price | money }}
+            </td>
+            <td>
+              {{ order.total_refunded_amount | money }}
+            </td>
+            <td>
+              <a href="{{ order.order_status_url }}" target="_blank">
+                Link
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+
+        </table>
+
+      {% else %}
+        Non hai ancora effettuato ordini.
+      {% endif %}
+    </div>
+
+    <div class="orders">
+      <div class="head">
+        <p>
+          I tuoi indirizzi
+        </p>
+      </div>
+      {% if customer.addresses_count > 0 %}
+        <table>
+
+          <tr>
+            <th>Indirizzo</th>
+            <th>Stato</th>
+            <th>Città</th>
+            <th>CAP</th>
+          </tr>
+
+        {% for address in customer.addresses %}
+          <tr>
+            <td>
+              {{ address.address1 }}
+            </td>
+            <td>
+              {{ address.country }}
+            </td>
+            <td>
+              {{ address.city }}
+            </td>
+            <td>
+              {{ address.province_code }}
+            </td>
+            <td>
+              <form method="post" action="/account/addresses/{{ address.id }}">
+              <input type="hidden" name="_method" value="delete"/>
+              <button type="submit">
+                Elimina
+              </button>
+            </form>
+            </td>
+          </tr>
+        {% endfor %}
+
+        </table>
+
+      {% else %}
+        <p>Non sono presenti indirizzi.</p>
+      {% endif %}
+    </div>
+    
+  </div>
+  
+</section>
+
+<style>
+    .customer {
+    width: 100%;
+    padding: 6rem 1rem;
+    margin-top: 4rem;
+  }
+
+  .customer .account {
+     width: 100%;
+  }
+
+  .customer .account .orders {
+    overflow: auto;
+  }
+
+  .customer .account .orders .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: solid 1px #000000;
+    border-bottom: solid 1px #000000;
+  }
+
+  .customer .account table {
+    width: 100%;
+    text-align: left;
+    padding: 1rem 0;
+    min-width: 900px;
+  }
+
+  .customer .account table tr th {
+    text-transform: uppercase;
+  }
+
+  .customer .account table tbody tr {
+    line-height: 2rem;
+  }
+
+  .customer .account .table td a {
+    text-decoration: underline !important;
+  }
+
+  .customer form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+  }
+
+  .customer form input {
+    padding: 1rem 0;
+    border: 0px;
+    border-bottom: solid 1px #000000;
+    background-color: #FFFFFF !important;
+    color: #000000;
+    appearance: none;
+  }
+
+  .customer form button {
+    padding: 1rem;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: 0px;
+  }
+
+  @media (min-width: 1024px) {
+    .customer {
+      max-width: calc(100% - 450px);
+      margin: 0 auto;
+    }
+  }
+</style>

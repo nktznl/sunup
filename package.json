@@ -1,0 +1,26 @@
+{
+  "name": "sunup",
+  "version": "1.0.0",
+  "description": "Vite powered Shopify theme environment.",
+  "type": "module",
+  "scripts": {
+    "shopify:theme": "shopify theme dev --store *.myshopify.com",
+    "watch": "vite build --watch",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "lazysizes": "^5.3.2",
+    "vite": "^5.3.4"
+  },
+  "devDependencies": {
+    "sass": "^1.52.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikitazanella/sunup.git"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}

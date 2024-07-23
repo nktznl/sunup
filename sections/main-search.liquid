@@ -1,0 +1,74 @@
+{{ 'main-search.css' | asset_url | stylesheet_tag }}
+
+<div class="search">
+  <div class="search_head">
+    <div class="search_form">
+      {% if search.performed %}
+        <h1>Risultati per: {{ search.terms }}</h1>
+      {% else %}
+        <h1>Effettua una ricerca</h1>
+      {% endif %}
+      <form action="{{ routes.search_url }}" method="POST">
+        <input type="search" name="q" value="{{ search.terms }}" placeholder="Effettua una ricerca">
+        <button type="submit">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  {% if search.performed %}
+    {% if search.results_count > 0 %}
+      <div class="search__grid">
+        {% paginate search.results by 48 %}
+          {%- for product in search.results -%}
+            {% unless product.title contains 'master' %}
+              {% render 'product-item', product: product %}
+            {% endunless %}
+          {%- endfor -%}
+          {% if paginate.pages > 1 %}
+            <div class="custom-pagination">
+              {{
+                paginate
+                | default_pagination:
+                  next: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" /></svg>',
+                  previous: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" /></svg>'
+              }}
+            </div>
+          {% endif %}
+        {% endpaginate %}
+      </div>
+      <!-- /.collection__body -->
+    {% else %}
+      <div class="no-results">
+        <h2>Nessun risultato per questa ricerca.</h2>
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Search",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image full width"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search"
+    }
+  ]
+}
+{% endschema %}

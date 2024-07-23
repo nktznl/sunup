@@ -1,0 +1,54 @@
+<section class="blocks">
+  {% for block in section.blocks %}
+    <div class="block show_border-bottom ">
+      <div class="img-wrapper">
+        <img src="{{block.settings.img | img_url: '1400x'}}" alt="{{ page.title | replace: '|', ' ' }}">
+      </div>
+
+      <div
+        {% if block.settings.reverse %}
+          style="order:-1;"
+        {% endif %}
+        class="content"
+      >
+        <div class="text">
+          {{ block.settings.content }}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
+{% schema %}
+{
+  "name": "Blocks",
+  "blocks": [
+    {
+      "name": "Block",
+      "type": "section",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "img",
+          "label": "Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "reverse",
+          "label": "Reverse"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blocks"
+    }
+  ]
+}
+{% endschema %}

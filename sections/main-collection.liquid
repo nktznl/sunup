@@ -1,0 +1,30 @@
+{{ 'main-collection.css' | asset_url | stylesheet_tag }}
+
+<div class="collection">
+  <div class="collection_head">
+    <h1>{{ collection.title | replace: '|', ' ' }}</h1>
+  </div>
+
+  <div class="filters_wrapper" style="display:none;">
+    <button style="display: none;" class="filters_button" onClick="toggleFilters()">FILTRI</button>
+  </div>
+
+  <div class="collection__grid">
+    {%- for product in collection.products -%}
+      <p>Prodotto</p>
+    {%- endfor -%}
+  </div>
+  <!-- /.collection__body -->
+</div>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Collection"
+    }
+  ]
+}
+{% endschema %}

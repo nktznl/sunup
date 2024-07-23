@@ -1,0 +1,139 @@
+<section class="customer">
+
+  <div class="addresses">
+
+    <a href="{{ routes.account_url }}">Torna indietro</a>
+    
+    <h1>Ciao, {{ customer.name }}!</h1>
+    <p>{{ customer.email }}</p>
+    <h2>I tuoi indirizzi</h2>
+
+     <div class="orders">
+      <div class="head">
+        <p>
+          I tuoi indirizzi
+        </p>
+      </div>
+      {% if customer.addresses_count > 0 %}
+        <table>
+
+          <tr>
+            <th>Indirizzo</th>
+            <th>Stato</th>
+            <th>Città</th>
+            <th>CAP</th>
+            <th>Elimina</th>
+          </tr>
+
+        {% for address in customer.addresses %}
+          <tr>
+            <td>
+              {{ address.address1 }}
+            </td>
+            <td>
+              {{ address.country }}
+            </td>
+            <td>
+              {{ address.city }}
+            </td>
+            <td>
+              {{ address.province_code }}
+            </td>
+          <td>
+            <form method="post" action="/account/addresses/{{ address.id }}">
+              <input type="hidden" name="_method" value="delete"/>
+              <button type="submit">
+                Elimina
+              </button>
+            </form>
+          </td>
+          </tr>
+        {% endfor %}
+
+        </table>
+
+      {% else %}
+        Non sono presenti indirizzi.
+      {% endif %}
+    </div>
+    
+  </div>
+  
+</section>
+
+<style>
+    .customer {
+    width: 100%;
+    padding: 6rem 1rem;
+    margin-top: 4rem;
+  }
+
+  .customer .addresses {
+     width: 100%;
+  }
+
+  .customer .addresses .orders {
+    overflow: auto;
+  }
+
+  .customer .addresses .orders .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: solid 1px #000000;
+    border-bottom: solid 1px #000000;
+  }
+
+  .customer .addresses table {
+    width: 100%;
+    text-align: left;
+    padding: 1rem 0;
+    min-width: 900px;
+  }
+
+  .customer .addresses table tr th {
+    text-transform: uppercase;
+  }
+
+  .customer .addresses table tbody tr {
+    line-height: 2rem;
+  }
+
+  .customer .addresses .table td a {
+    text-decoration: underline !important;
+  }
+
+  .customer .add-address {
+    max-width: 500px;
+  }
+
+  .customer form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+  }
+
+  .customer form input {
+    padding: 1rem 0;
+    border: 0px;
+    border-bottom: solid 1px #000000;
+    background-color: #FFFFFF !important;
+    color: #000000;
+    appearance: none;
+  }
+
+  .customer form button {
+    padding: 1rem;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: 0px;
+    cursor: pointer;
+  }
+
+  @media (min-width: 1024px) {
+    .customer {
+      max-width: calc(100% - 450px);
+      margin: 0 auto;
+    }
+  }
+</style>
