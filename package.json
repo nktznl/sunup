@@ -1,7 +1,7 @@
 {
   "name": "sunup",
-  "version": "1.0.0",
-  "description": "Vite powered Shopify theme environment.",
+  "version": "1.0.1",
+  "description": "Sunup - Simple Vite powered Shopify theme development setup",
   "type": "module",
   "scripts": {
     "shopify:theme": "shopify theme dev --store *.myshopify.com",
